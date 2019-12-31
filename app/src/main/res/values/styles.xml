@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="TransparentTextView" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/colorDarkGray</item>
+    </style>
+
 </resources>
