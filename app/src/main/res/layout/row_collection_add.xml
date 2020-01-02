@@ -31,7 +31,7 @@
                 android:id="@+id/txt_add_new_collection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add new Collection"
+                android:text="@string/new_collection"
                 android:textColor="@color/colorWhite"
                 android:layout_margin="8dp"
                 app:layout_constraintTop_toTopOf="parent"

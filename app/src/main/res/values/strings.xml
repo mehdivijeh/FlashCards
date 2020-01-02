@@ -6,4 +6,7 @@
     <string name="previous">previous</string>
     <string name="show_more"><u>Show more</u></string>
     <string name="show_less"><u>show less</u></string>
+    <string name="no_word_found">there is no word found. add with fab button</string>
+    <string name="loading">loading...</string>
+    <string name="new_collection">Add new Collection</string>
 </resources>
