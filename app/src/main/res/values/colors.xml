@@ -11,10 +11,18 @@
     <color name="colorDarkGray">#A6FFFFFF</color>
     <color name="colorGrayTransParent">#66424242</color>
 
+    <color name="colorGray">#6D6D6D</color>
 
     <color name="colorGreen">#009688</color>
     <color name="colorBlue">#3F51B5</color>
     <color name="colorRed">#E91E63</color>
+
+    <array name="rainbow">
+        <item>@color/colorGreen</item>
+        <item>@color/colorBlue</item>
+        <item>@color/colorRed</item>
+    </array>
+
 
     <color name="colorYellow">#FFB74D</color>
 
