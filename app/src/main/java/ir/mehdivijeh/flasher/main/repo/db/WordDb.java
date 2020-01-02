@@ -10,11 +10,10 @@ import ir.mehdivijeh.flasher.general.GeneralConstants;
 public class WordDb {
 
     @ColumnInfo(name = "id")
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private long id;
 
     @ColumnInfo(name = "collection_id")
-    @PrimaryKey
     private long CollectionId;
 
     @ColumnInfo(name = "word")

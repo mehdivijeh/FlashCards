@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Flasher</string>
+    <string name="study">study</string>
+    <string name="next">NEXT</string>
+    <string name="learn">LEARN</string>
+    <string name="previous">previous</string>
+    <string name="show_more"><u>Show more</u></string>
+    <string name="show_less"><u>show less</u></string>
 </resources>

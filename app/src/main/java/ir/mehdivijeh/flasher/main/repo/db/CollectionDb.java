@@ -10,7 +10,7 @@ import ir.mehdivijeh.flasher.general.GeneralConstants;
 public class CollectionDb {
 
     @ColumnInfo(name = "id")
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private long id;
 
     @ColumnInfo(name = "name")

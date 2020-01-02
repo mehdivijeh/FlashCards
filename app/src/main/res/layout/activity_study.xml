@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cst_study_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".study.StudyActivity">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_back"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/image_action_bar"
+        android:layout_margin="8dp"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="12dp"
+        app:srcCompat="@drawable/ic_arrow_back_24dp"/>
+
+
+    <com.app.progresviews.ProgressLine
+        android:id="@+id/progress_line"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintStart_toEndOf="@+id/img_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:definition="Word progress"
+        app:value="209"
+        app:lineBarWidth="7dp"
+        app:valuePercentage="55"
+        app:valueDefTextSize="20sp"
+        app:lineProgressColor="#43bd9f"
+        app:underLineColor="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/txt_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="504"
+        android:textColor="@color/colorBlack"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="12dp"/>
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progress_line"
+        android:text="504 Essentials Word"
+        android:layout_marginTop="32dp"/>
+
+    <ImageView
+        android:id="@+id/img_pronounce"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/round_button"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_volume"
+        android:scaleType="centerInside"/>
+
+    <TextView
+        android:id="@+id/txt_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="moment"
+        android:layout_marginStart="12dp"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorDarkBlue"
+        app:layout_constraintStart_toEndOf="@+id/img_pronounce"
+        app:layout_constraintTop_toTopOf="@+id/img_pronounce"
+        app:layout_constraintBottom_toBottomOf="@+id/img_pronounce"/>
+
+    <TextView
+        android:id="@+id/txt_pronounce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="['memonet]"
+        app:layout_constraintTop_toBottomOf="@+id/txt_word"
+        app:layout_constraintStart_toStartOf="@+id/txt_word"/>
+
+    <TextView
+        android:id="@+id/txt_show_less"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_less"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        android:layout_margin="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/card_view_details"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_details"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="12dp"
+        android:visibility="invisible"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/txt_pronounce"
+        app:layout_constraintBottom_toTopOf="@+id/btn_learn">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_root_meaning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="interface with and throble"
+                android:textColor="@color/colorBlack"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                app:layout_constraintTop_toBottomOf="@+id/txt_root_meaning"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="مزاحم شدن و اذیت کردن، آزار دادن"
+                android:textColor="@color/colorBlack"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/txt_see_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_more"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_learn"
+        app:layout_constraintStart_toStartOf="@+id/btn_learn"
+        app:layout_constraintEnd_toEndOf="@id/btn_learn"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_next"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintHorizontal_weight="2"
+        android:background="@drawable/rounded_corner"
+        android:backgroundTint="@color/colorDarkBlue"
+        android:text="@string/next"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_learn"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_learn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintHorizontal_weight="4"
+        android:backgroundTint="#43bd9f"
+        android:background="@drawable/rounded_corner"
+        android:text="@string/learn"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintStart_toEndOf="@+id/btn_previous"
+        app:layout_constraintEnd_toStartOf="@+id/btn_next"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_previous"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintHorizontal_weight="2"
+        android:backgroundTint="@color/colorDarkBlue"
+        android:background="@drawable/rounded_corner"
+        android:text="@string/previous"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toStartOf="@+id/btn_learn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

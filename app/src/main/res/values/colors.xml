@@ -7,6 +7,12 @@
 
     <color name="colorWhite">#FFFFFF</color>
 
+    <color name="colorTransparent">#00FFFFFF</color>
+
+    <color name="colorBlack">#000000</color>
+
+    <color name="colorDarkBlue">#000066</color>
+    <color name="colorDarkGreen">#1F6600</color>
 
     <color name="colorDarkGray">#A6FFFFFF</color>
     <color name="colorGrayTransParent">#66424242</color>

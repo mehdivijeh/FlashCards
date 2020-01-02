@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:background="@drawable/rounded_corner"
+                android:background="@drawable/rounded_corner_transparent"
                 android:text="LEARN"
                 android:textColor="@color/colorWhite"
                 app:layout_constraintEnd_toEndOf="parent"
