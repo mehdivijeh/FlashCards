@@ -10,6 +10,7 @@ import com.airbnb.lottie.LottieAnimationView;
 
 import ir.mehdivijeh.flasher.R;
 import ir.mehdivijeh.flasher.general.PreferenceUtils;
+import ir.mehdivijeh.flasher.general.TextUtil;
 import ir.mehdivijeh.flasher.general.repo.db.LocalDb;
 import ir.mehdivijeh.flasher.main.MainActivity;
 import ir.mehdivijeh.flasher.main.repo.db.CollectionDao;
@@ -56,6 +57,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
     private void initView() {
         mLottie = findViewById(R.id.lottie_0);
+        TextUtil.setFonts(getWindow().getDecorView());
     }
 
     private void initPresenter() {

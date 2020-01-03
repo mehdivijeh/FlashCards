@@ -13,6 +13,7 @@ import com.mikepenz.fastadapter.items.AbstractItem;
 import java.util.List;
 
 import ir.mehdivijeh.flasher.R;
+import ir.mehdivijeh.flasher.general.TextUtil;
 import rx.functions.Action1;
 
 public class AdapterWord extends AbstractItem<AdapterWord, AdapterWord.ViewHolder> {
@@ -60,6 +61,7 @@ public class AdapterWord extends AbstractItem<AdapterWord, AdapterWord.ViewHolde
             txtRootWord = view.findViewById(R.id.txt_root_word);
             imgCheck = view.findViewById(R.id.img_check);
             crdRowWord = view.findViewById(R.id.crd_row_word);
+            TextUtil.setFonts(view);
         }
 
         @Override

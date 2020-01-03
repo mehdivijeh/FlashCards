@@ -156,6 +156,13 @@
                 android:text="مزاحم شدن و اذیت کردن، آزار دادن"
                 android:textColor="@color/colorBlack"/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_example"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                app:layout_constraintTop_toBottomOf="@+id/txt_translate_meaning"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

@@ -1,7 +1,5 @@
 package ir.mehdivijeh.flasher.study;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.transition.ChangeBounds;
@@ -20,9 +18,13 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.constraintlayout.widget.Group;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.progresviews.ProgressLine;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.mikepenz.fastadapter.FastAdapter;
+import com.mikepenz.fastadapter.adapters.ItemAdapter;
 
 import java.util.List;
 import java.util.Locale;
@@ -30,6 +32,7 @@ import java.util.Locale;
 import ir.mehdivijeh.flasher.R;
 import ir.mehdivijeh.flasher.general.GeneralConstants;
 import ir.mehdivijeh.flasher.general.OnSwipeTouchListener;
+import ir.mehdivijeh.flasher.general.TextUtil;
 import ir.mehdivijeh.flasher.general.repo.db.LocalDb;
 import ir.mehdivijeh.flasher.main.repo.LocalCollectionRepo;
 import ir.mehdivijeh.flasher.main.repo.LocalExampleRepo;
@@ -40,6 +43,7 @@ import ir.mehdivijeh.flasher.main.repo.db.ExampleDao;
 import ir.mehdivijeh.flasher.main.repo.db.ExampleDb;
 import ir.mehdivijeh.flasher.main.repo.db.WordDao;
 import ir.mehdivijeh.flasher.main.repo.db.WordDb;
+import ir.mehdivijeh.flasher.study.adapter.AdapterExample;
 import ir.mehdivijeh.flasher.study.presenter.StudyPresenterImpl;
 
 public class StudyActivity extends AppCompatActivity implements StudyContract.StudyView, TextToSpeech.OnInitListener {
@@ -73,6 +77,9 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
     private CollectionDb collectionDb;
     private List<ExampleDb> exampleDbs;
     private WordDb wordDb;
+    private RecyclerView mRecyclerViewExample;
+    private ItemAdapter mItemAdapter;
+    private FastAdapter mFastAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +88,7 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
         initView();
         getExtras();
         initPresenter();
+        initRecyclerView();
         initTts();
         initOnClick();
 
@@ -88,6 +96,7 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
     }
 
     private void initView() {
+        mRecyclerViewExample = findViewById(R.id.recycler_view_example);
         mTxtSeeMore = findViewById(R.id.txt_see_more);
         mImgPronounce = findViewById(R.id.img_pronounce);
         mTxtPronounce = findViewById(R.id.txt_pronounce);
@@ -106,6 +115,7 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
         mTxtTranslateMeaning = findViewById(R.id.txt_translate_meaning);
         mGroupStudy = findViewById(R.id.group_study);
         loadingView = findViewById(R.id.shimmer_view_container);
+        TextUtil.setFonts(getWindow().getDecorView());
     }
 
     private void getExtras() {
@@ -124,6 +134,7 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
         LocalExampleRepo localExampleRepo = new LocalExampleRepo(exampleDao);
         LocalCollectionRepo localCollectionRepo = new LocalCollectionRepo(collectionDao);
 
+        loadingView.startShimmer();
         mPresenter = new StudyPresenterImpl(this, localWordRepo, localExampleRepo, localCollectionRepo);
     }
 
@@ -182,6 +193,14 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
             }
 
         });
+    }
+
+    private void initRecyclerView() {
+        mItemAdapter = new ItemAdapter();
+        mFastAdapter = FastAdapter.with(mItemAdapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerViewExample.setLayoutManager(layoutManager);
+        mRecyclerViewExample.setAdapter(mFastAdapter);
     }
 
     private boolean isShowMoreLessVisible() {
@@ -319,6 +338,14 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
         mGroupStudy.setVisibility(View.VISIBLE);
         loadingView.stopShimmer();
         loadingView.setVisibility(View.GONE);
+
+        if (mItemAdapter != null && mItemAdapter.getAdapterItemCount() > 0) {
+            mItemAdapter.clear();
+        }
+
+        for (ExampleDb exampleDb : exampleDbs) {
+            mItemAdapter.add(new AdapterExample(exampleDb.getRootExample(), exampleDb.getTranslateExample()));
+        }
     }
 
     private void showDataOnView() {
@@ -357,7 +384,8 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
     private void onNext() {
         if (nextWordId != -1) {
             wordId = nextWordId;
-            showDataOnView();
+            mPresenter.loadExampleWithWordId(wordId);
+            //showDataOnView();
         } else {
             Toast.makeText(this, "this is last word", Toast.LENGTH_SHORT).show();
         }
@@ -366,7 +394,8 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
     private void onPrevious() {
         if (previousWordId != -1) {
             wordId = previousWordId;
-            showDataOnView();
+            mPresenter.loadExampleWithWordId(wordId);
+            //showDataOnView();
         } else {
             Toast.makeText(this, "this is first word", Toast.LENGTH_SHORT).show();
         }

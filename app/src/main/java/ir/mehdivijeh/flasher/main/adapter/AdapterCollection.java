@@ -14,6 +14,7 @@ import com.mikepenz.fastadapter.items.AbstractItem;
 import java.util.List;
 
 import ir.mehdivijeh.flasher.R;
+import ir.mehdivijeh.flasher.general.TextUtil;
 import rx.functions.Action1;
 
 public class AdapterCollection extends AbstractItem<AdapterCollection, AdapterCollection.ViewHolder> {
@@ -64,6 +65,8 @@ public class AdapterCollection extends AbstractItem<AdapterCollection, AdapterCo
             prg_learn_progress = view.findViewById(R.id.prg_learn_progress);
             btn_learn = view.findViewById(R.id.btn_learn);
             row_collection = view.findViewById(R.id.crd_row_collection);
+            TextUtil.setFonts(view);
+
         }
 
         @Override

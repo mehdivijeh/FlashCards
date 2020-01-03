@@ -14,6 +14,7 @@ import com.mikepenz.fastadapter.items.AbstractItem;
 import java.util.List;
 
 import ir.mehdivijeh.flasher.R;
+import ir.mehdivijeh.flasher.general.TextUtil;
 import rx.functions.Action1;
 
 public class AdapterAddCollection extends AbstractItem<AdapterAddCollection, AdapterAddCollection.ViewHolder> {
@@ -50,6 +51,8 @@ public class AdapterAddCollection extends AbstractItem<AdapterAddCollection, Ada
             super(view);
 
             row_collection = view.findViewById(R.id.crd_row_add_collection);
+            TextUtil.setFonts(view);
+
         }
 
         @Override

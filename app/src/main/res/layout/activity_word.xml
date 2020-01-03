@@ -6,6 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".word.WordActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorTransparent"
+        app:contentInsetStart="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:id="@+id/rlToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:layout_gravity="center"
+                    android:textSize="18sp"
+                    android:layout_margin="8dp"
+                    android:textColor="@color/colorBlack"/>
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.appcompat.widget.Toolbar>
+
     <ImageView
         android:id="@+id/img_arrow"
         android:layout_width="wrap_content"
@@ -38,6 +74,7 @@
         android:id="@+id/recycler_view_word"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         android:visibility="gone" />
 
     <com.airbnb.lottie.LottieAnimationView
@@ -59,7 +96,7 @@
         app:shimmer_highlight_alpha="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"

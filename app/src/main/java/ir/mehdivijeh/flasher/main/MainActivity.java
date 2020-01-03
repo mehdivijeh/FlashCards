@@ -14,6 +14,7 @@ import java.util.List;
 
 import ir.mehdivijeh.flasher.R;
 import ir.mehdivijeh.flasher.general.GeneralConstants;
+import ir.mehdivijeh.flasher.general.TextUtil;
 import ir.mehdivijeh.flasher.general.repo.db.LocalDb;
 import ir.mehdivijeh.flasher.main.adapter.AdapterAddCollection;
 import ir.mehdivijeh.flasher.main.adapter.AdapterCollection;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     private void initView() {
         mRecyclerViewCollection = findViewById(R.id.recycler_view_collection);
         mRainbowColors = getResources().getIntArray(R.array.rainbow);
+        TextUtil.setFonts(getWindow().getDecorView());
     }
 
     private void initRecyclerView() {
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     protected void onResume() {
         super.onResume();
         if (mPresenter != null && mItemAdapter != null) {
+            mColorIndex = 0;
             mPresenter.loadCollectionFromDb();
         }
     }
