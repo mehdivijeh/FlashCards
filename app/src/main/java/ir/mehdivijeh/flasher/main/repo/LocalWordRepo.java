@@ -18,6 +18,13 @@ public class LocalWordRepo {
         return execute(() -> wordDao.getAllWithCollectionId(collectionId));
     }
 
+    public Observable<Void> setILearned(WordDb wordDb) {
+        return execute(() ->{
+            wordDao.insert(wordDb);
+            return null;
+        });
+    }
+
     private <T> Observable<T> execute(Callable act) {
         return Observable.fromCallable(act);
     }

@@ -57,6 +57,7 @@
                 android:layout_margin="8dp"
                 android:background="@drawable/rounded_corner_transparent"
                 android:textColor="@color/colorWhite"
+                android:text="@string/learn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/prg_learn_progress" />

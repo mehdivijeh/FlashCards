@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cst_study_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".study.StudyActivity">
+
+    <View
+        android:id="@+id/view_back"
+        android:layout_width="48dp"
+        android:layout_height="@dimen/image_action_bar"
+        android:layout_margin="8dp"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="12dp"
+        android:background="#dddddd"/>
+
+
+    <View
+        android:id="@+id/view_progress_line"
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintStart_toEndOf="@+id/view_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#dddddd"
+        />
+
+    <View
+        android:id="@+id/view_count"
+        android:layout_width="25dp"
+        android:layout_height="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#dddddd"
+        app:layout_constraintBottom_toTopOf="@+id/view_progress_line"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="12dp"/>
+
+    <View
+        android:id="@+id/view_progress"
+        android:layout_width="25dp"
+        android:layout_height="22dp"
+        app:layout_constraintStart_toEndOf="@+id/view_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/view_progress_line"
+        android:layout_marginBottom="8dp"
+        android:background="#dddddd"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"/>
+
+    <View
+        android:id="@+id/view_progress_def"
+        android:layout_width="82dp"
+        android:layout_height="14sp"
+        app:layout_constraintStart_toEndOf="@+id/view_progress"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/view_progress_line"
+        android:layout_marginBottom="2dp"
+        android:background="#dddddd"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"/>
+
+    <View
+        android:id="@+id/view_name"
+        android:layout_width="160dp"
+        android:layout_height="19dp"
+        android:background="#dddddd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_progress_line"
+        android:layout_marginTop="32dp"/>
+
+    <View
+        android:id="@+id/view_pronounce"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="#dddddd"
+        android:layout_marginStart="12dp" />
+
+    <View
+        android:id="@+id/view_word"
+        android:layout_width="160dp"
+        android:layout_height="19dp"
+        android:background="#dddddd"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@+id/view_pronounce"
+        app:layout_constraintTop_toTopOf="@+id/view_pronounce"
+        app:layout_constraintBottom_toBottomOf="@+id/view_pronounce"/>
+
+    <View
+        android:id="@+id/view_txt_pronounce"
+        android:layout_width="120dp"
+        android:layout_height="19dp"
+        android:background="#dddddd"
+        android:layout_marginTop="2dp"
+        app:layout_constraintTop_toBottomOf="@+id/view_word"
+        app:layout_constraintStart_toStartOf="@+id/view_word"/>
+
+
+    <View
+        android:id="@+id/view_see_more"
+        android:layout_width="120dp"
+        android:layout_height="19dp"
+        android:background="#dddddd"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintBottom_toTopOf="@+id/view_learn"
+        app:layout_constraintStart_toStartOf="@+id/view_learn"
+        app:layout_constraintEnd_toEndOf="@id/view_learn"/>
+
+
+    <View
+        android:id="@+id/view_next"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_margin="8dp"
+        app:layout_constraintHorizontal_weight="2"
+        android:background="#dddddd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/view_learn"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <View
+        android:id="@+id/view_learn"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_margin="8dp"
+        app:layout_constraintHorizontal_weight="4"
+        android:background="#dddddd"
+        app:layout_constraintStart_toEndOf="@+id/view_previous"
+        app:layout_constraintEnd_toStartOf="@+id/view_next"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/view_previous"
+        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_margin="8dp"
+        app:layout_constraintHorizontal_weight="2"
+        android:background="#dddddd"
+        app:layout_constraintEnd_toStartOf="@+id/view_learn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

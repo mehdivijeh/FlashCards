@@ -7,6 +7,27 @@
     android:layout_height="match_parent"
     tools:context=".study.StudyActivity">
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:shimmer_highlight_alpha="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/loading_study" />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_study"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="img_back,progress_line , txt_name , txt_count , img_pronounce ,txt_word ,txt_pronounce ,txt_see_more ,btn_learn ,btn_next ,btn_previous " />
+
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/img_back"
         android:layout_width="0dp"
@@ -126,6 +147,7 @@
                 android:text="interface with and throble"
                 android:textColor="@color/colorBlack"/>
             <TextView
+                android:id="@+id/txt_translate_meaning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"

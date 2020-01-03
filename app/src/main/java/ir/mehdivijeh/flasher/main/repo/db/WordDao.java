@@ -20,4 +20,8 @@ public interface WordDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(WordDb wordDb);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<WordDb> wordDbs);
+
 }

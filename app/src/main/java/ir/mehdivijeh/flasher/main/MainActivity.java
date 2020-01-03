@@ -1,5 +1,6 @@
 package ir.mehdivijeh.flasher.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import com.mikepenz.fastadapter.adapters.ItemAdapter;
 import java.util.List;
 
 import ir.mehdivijeh.flasher.R;
+import ir.mehdivijeh.flasher.general.GeneralConstants;
 import ir.mehdivijeh.flasher.general.repo.db.LocalDb;
 import ir.mehdivijeh.flasher.main.adapter.AdapterAddCollection;
 import ir.mehdivijeh.flasher.main.adapter.AdapterCollection;
@@ -19,6 +21,7 @@ import ir.mehdivijeh.flasher.main.presenter.MainPresenterImpl;
 import ir.mehdivijeh.flasher.main.repo.LocalCollectionRepo;
 import ir.mehdivijeh.flasher.main.repo.db.CollectionDao;
 import ir.mehdivijeh.flasher.main.repo.db.CollectionDb;
+import ir.mehdivijeh.flasher.word.WordActivity;
 
 public class MainActivity extends AppCompatActivity implements MainContract.MainView {
 
@@ -61,11 +64,18 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
 
     @Override
     public void onCollectionLoaded(List<CollectionDb> collectionDbList) {
+        if (mItemAdapter != null && mItemAdapter.getAdapterItemCount() > 0) {
+            mItemAdapter.clear();
+        }
+
         for (CollectionDb collectionDb : collectionDbList) {
             if (mColorIndex + 1 == mRainbowColors.length)
                 mColorIndex = 0;
 
             mItemAdapter.add(new AdapterCollection(collectionDb.getName(), collectionDb.getSize(), collectionDb.getLearned(), mRainbowColors[++mColorIndex], adapterCollection -> {
+                Intent intent = new Intent(MainActivity.this, WordActivity.class);
+                intent.putExtra(GeneralConstants.COLLECTION_ID, collectionDb.getId());
+                startActivity(intent);
             }));
         }
 
@@ -85,6 +95,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     @Override
     public void onDeleteSuccessfully(CollectionDb deletedCollectionDb) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mPresenter != null && mItemAdapter != null) {
+            mPresenter.loadCollectionFromDb();
+        }
     }
 
     @Override

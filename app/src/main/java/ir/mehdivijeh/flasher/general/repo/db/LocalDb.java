@@ -9,6 +9,8 @@ import androidx.room.RoomDatabase;
 import ir.mehdivijeh.flasher.general.GeneralConstants;
 import ir.mehdivijeh.flasher.main.repo.db.CollectionDao;
 import ir.mehdivijeh.flasher.main.repo.db.CollectionDb;
+import ir.mehdivijeh.flasher.main.repo.db.ExampleDao;
+import ir.mehdivijeh.flasher.main.repo.db.ExampleDb;
 import ir.mehdivijeh.flasher.main.repo.db.WordDao;
 import ir.mehdivijeh.flasher.main.repo.db.WordDb;
 import rx.Observable;
@@ -16,12 +18,14 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-@Database(entities = {CollectionDb.class , WordDb.class}, version = 1, exportSchema = false)
+@Database(entities = {CollectionDb.class , WordDb.class , ExampleDb.class}, version = 1, exportSchema = false)
 public abstract class LocalDb extends RoomDatabase {
 
     public abstract CollectionDao collectionDao();
 
     public abstract WordDao wordDao();
+
+    public abstract ExampleDao exampleDao();
 
     private static volatile LocalDb db;
 

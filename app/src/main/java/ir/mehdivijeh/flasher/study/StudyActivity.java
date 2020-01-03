@@ -1,5 +1,7 @@
 package ir.mehdivijeh.flasher.study;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.transition.ChangeBounds;
@@ -17,45 +19,79 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.constraintlayout.widget.Group;
 
 import com.app.progresviews.ProgressLine;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
+import java.util.List;
 import java.util.Locale;
 
 import ir.mehdivijeh.flasher.R;
+import ir.mehdivijeh.flasher.general.GeneralConstants;
 import ir.mehdivijeh.flasher.general.OnSwipeTouchListener;
+import ir.mehdivijeh.flasher.general.repo.db.LocalDb;
+import ir.mehdivijeh.flasher.main.repo.LocalCollectionRepo;
+import ir.mehdivijeh.flasher.main.repo.LocalExampleRepo;
+import ir.mehdivijeh.flasher.main.repo.LocalWordRepo;
+import ir.mehdivijeh.flasher.main.repo.db.CollectionDao;
+import ir.mehdivijeh.flasher.main.repo.db.CollectionDb;
+import ir.mehdivijeh.flasher.main.repo.db.ExampleDao;
+import ir.mehdivijeh.flasher.main.repo.db.ExampleDb;
+import ir.mehdivijeh.flasher.main.repo.db.WordDao;
+import ir.mehdivijeh.flasher.main.repo.db.WordDb;
+import ir.mehdivijeh.flasher.study.presenter.StudyPresenterImpl;
 
-public class StudyActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
+public class StudyActivity extends AppCompatActivity implements StudyContract.StudyView, TextToSpeech.OnInitListener {
 
+    private StudyContract.StudyPresenter mPresenter;
     private TextView mTxtSeeMore;
     private TextView mTxtName;
     private TextView mTxtWord;
     private TextView mTxtShowLess;
     private TextView mTxtCount;
+    private TextView mTxtPronounce;
+    private TextView mTxtRootMeaning;
+    private TextView mTxtTranslateMeaning;
     private ImageView mImgPronounce;
     private ImageView mImgBack;
     private Button mBtnNext;
     private Button mBtnPrevious;
     private Button mBtnLearn;
+    private Group mGroupStudy;
     private CardView mCrdDetails;
     private ConstraintLayout mCstStudyRoot;
+    private ShimmerFrameLayout loadingView;
     private ProgressLine mProgressLine;
     private TextToSpeech mTts;
     private boolean isTtsInit = false;
+    private long collectionId;
+    private long wordId;
+    private long nextWordId;
+    private long previousWordId;
+    private List<WordDb> wordDbs;
+    private CollectionDb collectionDb;
+    private List<ExampleDb> exampleDbs;
+    private WordDb wordDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_study);
         initView();
+        getExtras();
+        initPresenter();
         initTts();
         initOnClick();
 
+        mPresenter.loadCollectionFromDb(collectionId);
     }
 
     private void initView() {
         mTxtSeeMore = findViewById(R.id.txt_see_more);
         mImgPronounce = findViewById(R.id.img_pronounce);
+        mTxtPronounce = findViewById(R.id.txt_pronounce);
+        mTxtRootMeaning = findViewById(R.id.txt_root_meaning);
         mTxtWord = findViewById(R.id.txt_word);
         mCrdDetails = findViewById(R.id.card_view_details);
         mCstStudyRoot = findViewById(R.id.cst_study_root);
@@ -67,6 +103,28 @@ public class StudyActivity extends AppCompatActivity implements TextToSpeech.OnI
         mBtnNext = findViewById(R.id.btn_next);
         mBtnPrevious = findViewById(R.id.btn_previous);
         mBtnLearn = findViewById(R.id.btn_learn);
+        mTxtTranslateMeaning = findViewById(R.id.txt_translate_meaning);
+        mGroupStudy = findViewById(R.id.group_study);
+        loadingView = findViewById(R.id.shimmer_view_container);
+    }
+
+    private void getExtras() {
+        collectionId = getIntent().getLongExtra(GeneralConstants.COLLECTION_ID, -1);
+        wordId = getIntent().getLongExtra(GeneralConstants.WORD_ID, -1);
+    }
+
+    private void initPresenter() {
+        LocalDb localDb = LocalDb.getInstance(this);
+
+        WordDao wordDao = localDb.wordDao();
+        ExampleDao exampleDao = localDb.exampleDao();
+        CollectionDao collectionDao = localDb.collectionDao();
+
+        LocalWordRepo localWordRepo = new LocalWordRepo(wordDao);
+        LocalExampleRepo localExampleRepo = new LocalExampleRepo(exampleDao);
+        LocalCollectionRepo localCollectionRepo = new LocalCollectionRepo(collectionDao);
+
+        mPresenter = new StudyPresenterImpl(this, localWordRepo, localExampleRepo, localCollectionRepo);
     }
 
     private void initTts() {
@@ -81,32 +139,44 @@ public class StudyActivity extends AppCompatActivity implements TextToSpeech.OnI
         mImgBack.setOnClickListener(v -> onBackPressed());
 
         mImgPronounce.setOnClickListener(v -> {
-            if(isTtsInit) {
+            if (isTtsInit) {
                 String text = mTxtWord.getText().toString();
                 mTts.setLanguage(Locale.US);
                 mTts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
-            }else {
+            } else {
                 Toast.makeText(this, "please wait and try again.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mBtnNext.setOnClickListener(v -> onNext());
+
+        mBtnPrevious.setOnClickListener(v -> onPrevious());
+
+        mBtnLearn.setOnClickListener(v -> {
+            if (collectionDb != null && wordDb != null && mPresenter != null) {
+                wordDb.setILearnIt(!wordDb.isILearnIt());
+                mPresenter.setILearnt(collectionDb, wordDb);
             }
         });
 
         mCstStudyRoot.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeTop() {
-                if(!isShowMoreLessVisible()){
+                if (!isShowMoreLessVisible()) {
                     showDetailsView();
                 }
             }
 
             public void onSwipeRight() {
-                Toast.makeText(StudyActivity.this, "right", Toast.LENGTH_SHORT).show();
+                onPrevious();
             }
 
             public void onSwipeLeft() {
-                Toast.makeText(StudyActivity.this, "left", Toast.LENGTH_SHORT).show();
+
+                onNext();
             }
 
             public void onSwipeBottom() {
-                if(isShowMoreLessVisible()){
+                if (isShowMoreLessVisible()) {
                     hideDetailsView();
                 }
             }
@@ -114,7 +184,7 @@ public class StudyActivity extends AppCompatActivity implements TextToSpeech.OnI
         });
     }
 
-    private boolean isShowMoreLessVisible(){
+    private boolean isShowMoreLessVisible() {
         return mTxtShowLess.getVisibility() == View.VISIBLE;
     }
 
@@ -220,6 +290,101 @@ public class StudyActivity extends AppCompatActivity implements TextToSpeech.OnI
             mTts.setLanguage(Locale.US);
         } else
             Toast.makeText(this, "error!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mPresenter != null)
+            mPresenter.onDestroy();
+    }
+
+    @Override
+    public void onCollectionLoaded(CollectionDb collectionDb) {
+        this.collectionDb = collectionDb;
+        mPresenter.loadWordsFromDb(collectionId);
+    }
+
+    @Override
+    public void onWordsLoaded(List<WordDb> wordDbs) {
+        this.wordDbs = wordDbs;
+        mPresenter.loadExampleWithWordId(wordId);
+    }
+
+    @Override
+    public void onExampleLoaded(List<ExampleDb> exampleDbs) {
+        this.exampleDbs = exampleDbs;
+        showDataOnView();
+        mGroupStudy.setVisibility(View.VISIBLE);
+        loadingView.stopShimmer();
+        loadingView.setVisibility(View.GONE);
+    }
+
+    private void showDataOnView() {
+        mTxtName.setText(collectionDb.getName());
+        mTxtCount.setText(String.valueOf(collectionDb.getSize()));
+
+        for (int i = 0; i < wordDbs.size(); i++) {
+            if (wordDbs.get(i).getId() == wordId) {
+
+                wordDb = wordDbs.get(i);
+
+                if (i - 1 >= 0) {
+                    previousWordId = wordDbs.get(i - 1).getId();
+                } else {
+                    previousWordId = -1;
+                }
+
+                if (i + 1 < wordDbs.size()) {
+                    nextWordId = wordDbs.get(i + 1).getId();
+                } else {
+                    nextWordId = -1;
+                }
+
+                int percentage = (int) ((i + 1) * (100.0 / (float) collectionDb.getSize()));
+                mProgressLine.setmPercentage(percentage);
+                mProgressLine.setmValueText(i + 1);
+                mTxtWord.setText(wordDbs.get(i).getWord());
+                mTxtPronounce.setText(wordDbs.get(i).getPronounce());
+                mTxtRootMeaning.setText(wordDbs.get(i).getRoot_definition());
+                mTxtTranslateMeaning.setText(wordDbs.get(i).getTranslate());
+                changeLearnButton(wordDbs.get(i).isILearnIt());
+            }
+        }
+    }
+
+    private void onNext() {
+        if (nextWordId != -1) {
+            wordId = nextWordId;
+            showDataOnView();
+        } else {
+            Toast.makeText(this, "this is last word", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void onPrevious() {
+        if (previousWordId != -1) {
+            wordId = previousWordId;
+            showDataOnView();
+        } else {
+            Toast.makeText(this, "this is first word", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void changeLearnButton(boolean isILearn) {
+        if (isILearn) {
+            mBtnLearn.setText("Forgot");
+            mBtnLearn.setBackgroundTintList(this.getResources().getColorStateList(R.color.colorRed));
+        } else {
+            mBtnLearn.setText("Learn");
+            mBtnLearn.setBackgroundTintList(this.getResources().getColorStateList(R.color.colorGreen));
+        }
+    }
+
+    @Override
+    public void onLearntSaved(boolean isILearnt) {
+        changeLearnButton(isILearnt);
     }
 }
 
