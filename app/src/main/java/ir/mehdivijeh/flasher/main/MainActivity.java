@@ -1,7 +1,14 @@
 package ir.mehdivijeh.flasher.main;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +18,7 @@ import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.adapters.ItemAdapter;
 
 import java.util.List;
+import java.util.Objects;
 
 import ir.mehdivijeh.flasher.R;
 import ir.mehdivijeh.flasher.general.GeneralConstants;
@@ -71,18 +79,22 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         }
 
         for (CollectionDb collectionDb : collectionDbList) {
-            if (mColorIndex + 1 == mRainbowColors.length)
+            if (mColorIndex == mRainbowColors.length)
                 mColorIndex = 0;
 
-            mItemAdapter.add(new AdapterCollection(collectionDb.getName(), collectionDb.getSize(), collectionDb.getLearned(), mRainbowColors[++mColorIndex], adapterCollection -> {
+            mItemAdapter.add(new AdapterCollection(collectionDb.getName(), collectionDb.getSize(), collectionDb.getLearned(), mRainbowColors[mColorIndex++]
+                    , adapterCollection -> {
                 Intent intent = new Intent(MainActivity.this, WordActivity.class);
                 intent.putExtra(GeneralConstants.COLLECTION_ID, collectionDb.getId());
                 startActivity(intent);
+            }, adapterCollection -> {
+
             }));
         }
 
 
         mItemAdapter.add(new AdapterAddCollection(getResources().getColor(R.color.colorGray), adapterCollection -> {
+            showDialogCreatePack();
         }));
 
 
@@ -92,11 +104,89 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     @Override
     public void addCollectionSuccessfully(CollectionDb addedCollectionDb) {
 
+        //delete add new collection and then after add collection add it
+        if (mItemAdapter != null && mItemAdapter.getAdapterItemCount() > 0) {
+            mItemAdapter.remove(mItemAdapter.getAdapterItemCount() - 1);
+        }
+
+        if (mColorIndex == mRainbowColors.length)
+            mColorIndex = 0;
+
+        mItemAdapter.add(new AdapterCollection(addedCollectionDb.getName(), addedCollectionDb.getSize(), addedCollectionDb.getLearned(), mRainbowColors[mColorIndex++], adapterCollection -> {
+            Intent intent = new Intent(MainActivity.this, WordActivity.class);
+            intent.putExtra(GeneralConstants.COLLECTION_ID, addedCollectionDb.getId());
+            startActivity(intent);
+        }, adapterCollection -> {
+
+        }));
+
+        mItemAdapter.add(new AdapterAddCollection(getResources().getColor(R.color.colorGray), adapterCollection -> {
+            showDialogCreatePack();
+        }));
+
+        mFastAdapter.notifyAdapterDataSetChanged();
     }
 
     @Override
     public void onDeleteSuccessfully(CollectionDb deletedCollectionDb) {
 
+    }
+
+    private void showDialogCreatePack() {
+        final Dialog mDialog = new Dialog(this);
+        mDialog.setCancelable(true);
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        Objects.requireNonNull(mDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mDialog.setContentView(R.layout.dialog_create_collection);
+        TextUtil.setFonts(mDialog.getWindow().getDecorView());
+        mDialog.setCancelable(true);
+
+        EditText edtName = mDialog.findViewById(R.id.edt_pack_name);
+        Button btnCreate = mDialog.findViewById(R.id.btn_create);
+        Button btnCancel = mDialog.findViewById(R.id.btn_cancel);
+
+        btnCreate.setOnClickListener(v -> {
+            if (edtName.getText() != null && edtName.getText().toString().length() > 0) {
+                mDialog.dismiss();
+                CollectionDb collectionDb = new CollectionDb();
+                collectionDb.setName(edtName.getText().toString());
+                collectionDb.setLearned(0);
+                collectionDb.setSize(0);
+                mPresenter.addCollectionToDb(collectionDb);
+            } else {
+                edtName.setError(getString(R.string.no_input));
+            }
+        });
+
+        btnCancel.setOnClickListener(v -> mDialog.dismiss());
+        mDialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT
+                , WindowManager.LayoutParams.WRAP_CONTENT);
+
+        mDialog.show();
+    }
+
+    private void showDialogDeleteCollection(CollectionDb collectionDb) {
+        final Dialog mDialog = new Dialog(this);
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        Objects.requireNonNull(mDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mDialog.setContentView(R.layout.dialog_delete_pack);
+        TextUtil.setFonts(mDialog.getWindow().getDecorView());
+        mDialog.setCancelable(true);
+
+        Button btnDelete = mDialog.findViewById(R.id.btn_delete);
+        Button btnCancel = mDialog.findViewById(R.id.btn_cancel);
+        btnDelete.setOnClickListener(v -> {
+            mDialog.dismiss();
+            mPresenter.deleteStickerPack(packId);
+        });
+
+        btnCancel.setOnClickListener(v -> mDialog.dismiss());
+        mDialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT
+                , WindowManager.LayoutParams.WRAP_CONTENT);
+
+        mDialog.show();
     }
 
     @Override

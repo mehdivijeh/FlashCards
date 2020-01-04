@@ -24,13 +24,15 @@ public class AdapterCollection extends AbstractItem<AdapterCollection, AdapterCo
     private int progress;
     private int backgroundColor;
     private Action1<AdapterCollection> onClick;
+    private Action1<AdapterCollection> onLongClick;
 
-    public AdapterCollection(String name, int count, int progress, int backgroundColor, Action1<AdapterCollection> onClick) {
+    public AdapterCollection(String name, int count, int progress, int backgroundColor, Action1<AdapterCollection> onClick, Action1<AdapterCollection> onLongClick) {
         this.name = name;
         this.count = count;
         this.progress = progress;
         this.backgroundColor = backgroundColor;
         this.onClick = onClick;
+        this.onLongClick = onLongClick;
     }
 
     @NonNull
@@ -75,14 +77,19 @@ public class AdapterCollection extends AbstractItem<AdapterCollection, AdapterCo
             txt_collection_name.setText(item.name);
             txt_collection_size.setText(String.valueOf(item.count));
 
-            int percent = (int) (item.progress * ( 360.0 /((float)item.count)));
+            int percent = (int) (item.progress * (360.0 / ((float) item.count)));
             prg_learn_progress.setPercentage(percent);
 
             String stepCount = String.valueOf(item.progress);
             String def = "Words";
-            if(item.progress == item.count) {
-                stepCount = "finish!";
-                def = "✓";
+            if (item.count > 0) {
+                if (item.progress == item.count) {
+                    stepCount = "finish!";
+                    def = "✓";
+                }
+            } else {
+                stepCount = "no word";
+                def = "add a new word";
             }
 
             prg_learn_progress.setStepCountText(stepCount);
@@ -90,6 +97,12 @@ public class AdapterCollection extends AbstractItem<AdapterCollection, AdapterCo
 
 
             btn_learn.setOnClickListener(view -> item.onClick.call(item));
+
+            btn_learn.setOnLongClickListener(view -> {
+                item.onLongClick.call(item);
+                return true;
+            });
+
             row_collection.setCardBackgroundColor(item.backgroundColor);
 
         }
