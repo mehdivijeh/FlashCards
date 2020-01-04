@@ -57,6 +57,7 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
     private TextView mTxtPronounce;
     private TextView mTxtRootMeaning;
     private TextView mTxtTranslateMeaning;
+    private TextView mTxtExamples;
     private ImageView mImgPronounce;
     private ImageView mImgBack;
     private Button mBtnNext;
@@ -101,6 +102,7 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
         mImgPronounce = findViewById(R.id.img_pronounce);
         mTxtPronounce = findViewById(R.id.txt_pronounce);
         mTxtRootMeaning = findViewById(R.id.txt_root_meaning);
+        mTxtExamples = findViewById(R.id.txt_examples);
         mTxtWord = findViewById(R.id.txt_word);
         mCrdDetails = findViewById(R.id.card_view_details);
         mCstStudyRoot = findViewById(R.id.cst_study_root);
@@ -341,6 +343,14 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
 
         if (mItemAdapter != null && mItemAdapter.getAdapterItemCount() > 0) {
             mItemAdapter.clear();
+        }
+
+        if(exampleDbs.size() > 0){
+            mTxtExamples.setVisibility(View.VISIBLE);
+            mRecyclerViewExample.setVisibility(View.VISIBLE);
+        }else {
+            mTxtExamples.setVisibility(View.INVISIBLE);
+            mRecyclerViewExample.setVisibility(View.INVISIBLE);
         }
 
         for (ExampleDb exampleDb : exampleDbs) {

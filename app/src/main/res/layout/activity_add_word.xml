@@ -105,12 +105,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edt_root_meaning" />
 
+            <FrameLayout
+                android:id="@+id/delimiter"
+                app:layout_constraintTop_toBottomOf="@+id/edt_translate_meaning"
+                android:layout_width="match_parent"
+                android:layout_margin="12dp"
+                android:layout_height="1dp"
+                android:background="@color/colorGray" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_example"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
-                app:layout_constraintTop_toBottomOf="@+id/edt_translate_meaning" />
+                app:layout_constraintTop_toBottomOf="@+id/delimiter" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
