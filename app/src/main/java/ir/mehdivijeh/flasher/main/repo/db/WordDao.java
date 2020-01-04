@@ -19,7 +19,7 @@ public interface WordDao {
     List<WordDb> getAllWithCollectionId(long collectionId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(WordDb wordDb);
+    long insert(WordDb wordDb);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<WordDb> wordDbs);

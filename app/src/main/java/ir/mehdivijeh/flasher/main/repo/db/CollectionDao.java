@@ -34,9 +34,15 @@ public interface CollectionDao {
     CollectionDb getCollectionWithId(long id);
 
     @Query("UPDATE " + GeneralConstants.TABLE_COLLECTION + " SET learned = learned+1 WHERE id = :id")
-    void increaseLearn(long id );
+    void increaseLearn(long id);
 
     @Query("UPDATE " + GeneralConstants.TABLE_COLLECTION + " SET learned = learned-1 WHERE id = :id")
-    void decreaseLearn(long id );
+    void decreaseLearn(long id);
+
+    @Query("UPDATE " + GeneralConstants.TABLE_COLLECTION + " SET size = size+1 WHERE id = :id")
+    void increaseSize(long id);
+
+    @Query("UPDATE " + GeneralConstants.TABLE_COLLECTION + " SET size = size-1 WHERE id = :id")
+    void decreaseSize(long id);
 
 }

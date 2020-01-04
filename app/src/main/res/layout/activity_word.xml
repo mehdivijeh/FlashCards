@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?android:attr/actionBarSize"
         android:background="@color/colorTransparent"
         app:contentInsetStart="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,7 +18,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
+            android:layout_height="match_parent"
             app:cardElevation="4dp">
 
             <LinearLayout
@@ -30,7 +30,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/app_name"
+                    android:text="@string/words"
                     android:layout_gravity="center"
                     android:textSize="18sp"
                     android:layout_margin="8dp"
@@ -73,7 +73,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_word"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         android:visibility="gone" />
 

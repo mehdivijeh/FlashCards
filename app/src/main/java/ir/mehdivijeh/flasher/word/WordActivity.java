@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.adapters.ItemAdapter;
 
@@ -23,6 +24,7 @@ import ir.mehdivijeh.flasher.main.repo.db.WordDao;
 import ir.mehdivijeh.flasher.main.repo.db.WordDb;
 import ir.mehdivijeh.flasher.study.StudyActivity;
 import ir.mehdivijeh.flasher.word.adapter.AdapterWord;
+import ir.mehdivijeh.flasher.word.add.AddWordActivity;
 import ir.mehdivijeh.flasher.word.presenter.WordPresenterImpl;
 
 public class WordActivity extends AppCompatActivity implements WordContract.WordView {
@@ -31,6 +33,7 @@ public class WordActivity extends AppCompatActivity implements WordContract.Word
     private long collectionId;
     private Group groupNoWords;
     private ShimmerFrameLayout loadingView;
+    private FloatingActionButton fabAddWord;
     private RecyclerView mRecyclerViewWords;
     private ItemAdapter mItemAdapter;
     private FastAdapter mFastAdapter;
@@ -42,6 +45,7 @@ public class WordActivity extends AppCompatActivity implements WordContract.Word
         initView();
         getExtras();
         initPresenter();
+        initOnClick();
         initRecyclerView();
         getWords();
     }
@@ -50,6 +54,7 @@ public class WordActivity extends AppCompatActivity implements WordContract.Word
         groupNoWords = findViewById(R.id.group_no_word);
         loadingView = findViewById(R.id.shimmer_view_container);
         mRecyclerViewWords = findViewById(R.id.recycler_view_word);
+        fabAddWord = findViewById(R.id.fab_add_word);
     }
 
     private void getExtras() {
@@ -60,6 +65,15 @@ public class WordActivity extends AppCompatActivity implements WordContract.Word
         WordDao wordDao = LocalDb.getInstance(this).wordDao();
         LocalWordRepo localWordRepo = new LocalWordRepo(wordDao);
         mPresenter = new WordPresenterImpl(this, localWordRepo);
+    }
+
+    private void initOnClick() {
+        fabAddWord.setOnClickListener(v -> {
+            Intent intent = new Intent(this , AddWordActivity.class);
+            intent.putExtra(GeneralConstants.COLLECTION_ID , collectionId);
+            startActivity(intent);
+        });
+
     }
 
     private void initRecyclerView() {
@@ -110,7 +124,7 @@ public class WordActivity extends AppCompatActivity implements WordContract.Word
     @Override
     protected void onResume() {
         super.onResume();
-        if (mPresenter != null ) {
+        if (mPresenter != null) {
             getWords();
         }
     }

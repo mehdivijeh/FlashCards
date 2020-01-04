@@ -147,7 +147,7 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
 
         mTxtShowLess.setOnClickListener(v -> hideDetailsView());
 
-        mImgBack.setOnClickListener(v -> onBackPressed());
+
 
         mImgPronounce.setOnClickListener(v -> {
             if (isTtsInit) {
@@ -373,7 +373,12 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
                 mProgressLine.setmPercentage(percentage);
                 mProgressLine.setmValueText(i + 1);
                 mTxtWord.setText(wordDbs.get(i).getWord());
-                mTxtPronounce.setText(wordDbs.get(i).getPronounce());
+                if(wordDbs.get(i).getPronounce() != null) {
+                    mTxtPronounce.setVisibility(View.VISIBLE);
+                    mTxtPronounce.setText(wordDbs.get(i).getPronounce());
+                }else {
+                    mTxtPronounce.setVisibility(View.INVISIBLE);
+                }
                 mTxtRootMeaning.setText(wordDbs.get(i).getRoot_definition());
                 mTxtTranslateMeaning.setText(wordDbs.get(i).getTranslate());
                 changeLearnButton(wordDbs.get(i).isILearnIt());
@@ -415,5 +420,7 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
     public void onLearntSaved(boolean isILearnt) {
         changeLearnButton(isILearnt);
     }
+
+
 }
 

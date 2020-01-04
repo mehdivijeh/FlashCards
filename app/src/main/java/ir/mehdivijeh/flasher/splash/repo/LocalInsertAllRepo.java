@@ -37,6 +37,22 @@ public class LocalInsertAllRepo {
         });
     }
 
+    public Observable<Void> transactionAddWord(long collectionId, WordDb wordDb, List<ExampleDb> exampleDbs) {
+        return execute(() -> {
+            localDb.runInTransaction(() -> {
+                collectionDao.increaseSize(collectionId);
+                long wordId = wordDao.insert(wordDb);
+
+                for (ExampleDb exampleDb : exampleDbs) {
+                    exampleDb.setWordId(wordId);
+                }
+
+                exampleDao.insertAll(exampleDbs);
+            });
+            return null;
+        });
+    }
+
     private <T> Observable<T> execute(Callable act) {
         return Observable.fromCallable(act);
     }

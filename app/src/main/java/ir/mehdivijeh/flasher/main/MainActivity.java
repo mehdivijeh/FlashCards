@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -82,13 +83,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
             if (mColorIndex == mRainbowColors.length)
                 mColorIndex = 0;
 
-            mItemAdapter.add(new AdapterCollection(collectionDb.getName(), collectionDb.getSize(), collectionDb.getLearned(), mRainbowColors[mColorIndex++]
+            mItemAdapter.add(new AdapterCollection(collectionDb.getId(), collectionDb.getName(), collectionDb.getSize(), collectionDb.getLearned(), mRainbowColors[mColorIndex++]
                     , adapterCollection -> {
                 Intent intent = new Intent(MainActivity.this, WordActivity.class);
                 intent.putExtra(GeneralConstants.COLLECTION_ID, collectionDb.getId());
                 startActivity(intent);
             }, adapterCollection -> {
-
+                showDialogDeleteCollection(collectionDb);
             }));
         }
 
@@ -112,12 +113,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         if (mColorIndex == mRainbowColors.length)
             mColorIndex = 0;
 
-        mItemAdapter.add(new AdapterCollection(addedCollectionDb.getName(), addedCollectionDb.getSize(), addedCollectionDb.getLearned(), mRainbowColors[mColorIndex++], adapterCollection -> {
+        mItemAdapter.add(new AdapterCollection(addedCollectionDb.getId(), addedCollectionDb.getName(), addedCollectionDb.getSize(), addedCollectionDb.getLearned(), mRainbowColors[mColorIndex++], adapterCollection -> {
             Intent intent = new Intent(MainActivity.this, WordActivity.class);
             intent.putExtra(GeneralConstants.COLLECTION_ID, addedCollectionDb.getId());
             startActivity(intent);
         }, adapterCollection -> {
-
+            showDialogDeleteCollection(addedCollectionDb);
         }));
 
         mItemAdapter.add(new AdapterAddCollection(getResources().getColor(R.color.colorGray), adapterCollection -> {
@@ -129,7 +130,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
 
     @Override
     public void onDeleteSuccessfully(CollectionDb deletedCollectionDb) {
-
+        for (int i = 0; i < mItemAdapter.getAdapterItems().size(); i++) {
+            if (mItemAdapter.getAdapterItem(i) instanceof AdapterCollection) {
+                if (((AdapterCollection) mItemAdapter.getAdapterItem(i)).getCollectionId() == deletedCollectionDb.getId()) {
+                    mItemAdapter.remove(i);
+                    break;
+                }
+            }
+        }
+        mFastAdapter.notifyAdapterDataSetChanged();
     }
 
     private void showDialogCreatePack() {
@@ -171,15 +180,18 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         Objects.requireNonNull(mDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mDialog.setContentView(R.layout.dialog_delete_pack);
+        mDialog.setContentView(R.layout.dialog_delete_collection);
         TextUtil.setFonts(mDialog.getWindow().getDecorView());
         mDialog.setCancelable(true);
 
+        TextView txtTitle = mDialog.findViewById(R.id.txt_title);
         Button btnDelete = mDialog.findViewById(R.id.btn_delete);
         Button btnCancel = mDialog.findViewById(R.id.btn_cancel);
+
+        txtTitle.setText(getResources().getString(R.string.dialog_delete_title, String.valueOf(collectionDb.getName())));
         btnDelete.setOnClickListener(v -> {
             mDialog.dismiss();
-            mPresenter.deleteStickerPack(packId);
+            mPresenter.deleteCollectionFromDb(collectionDb);
         });
 
         btnCancel.setOnClickListener(v -> mDialog.dismiss());

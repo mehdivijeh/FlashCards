@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cst_study_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".study.StudyActivity">
+
+
+    <EditText
+        android:id="@+id/edt_word"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:hint="root word"
+        android:textColor="@color/colorDarkBlue"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_back" />
+
+
+    <EditText
+        android:id="@+id/edt_pronounce"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:hint="root pronounce"
+
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/edt_word"
+        app:layout_constraintTop_toBottomOf="@+id/edt_word" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="12dp"
+        android:text="Add new Word"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/img_back"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_add"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@drawable/rounded_corner"
+        android:backgroundTint="#43bd9f"
+        android:text="add word"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="4"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_back"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/image_action_bar"
+        android:layout_margin="8dp"
+        android:padding="12dp"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_arrow_back_24dp" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_details"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="12dp"
+        android:visibility="visible"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add"
+        app:layout_constraintTop_toBottomOf="@+id/edt_pronounce">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edt_root_meaning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:hint="root definition"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/edt_translate_meaning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:hint="translate meaning"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edt_root_meaning" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_example"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                app:layout_constraintTop_toBottomOf="@+id/edt_translate_meaning" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,16 +23,23 @@ public class AdapterCollection extends AbstractItem<AdapterCollection, AdapterCo
     private int count;
     private int progress;
     private int backgroundColor;
+    private long collectionId;
     private Action1<AdapterCollection> onClick;
     private Action1<AdapterCollection> onLongClick;
 
-    public AdapterCollection(String name, int count, int progress, int backgroundColor, Action1<AdapterCollection> onClick, Action1<AdapterCollection> onLongClick) {
+    public AdapterCollection(long collectionId ,String name, int count, int progress, int backgroundColor , Action1<AdapterCollection> onClick, Action1<AdapterCollection> onLongClick) {
         this.name = name;
         this.count = count;
         this.progress = progress;
         this.backgroundColor = backgroundColor;
+        this.collectionId = collectionId;
         this.onClick = onClick;
         this.onLongClick = onLongClick;
+    }
+
+
+    public long getCollectionId() {
+        return collectionId;
     }
 
     @NonNull
@@ -98,7 +105,7 @@ public class AdapterCollection extends AbstractItem<AdapterCollection, AdapterCo
 
             btn_learn.setOnClickListener(view -> item.onClick.call(item));
 
-            btn_learn.setOnLongClickListener(view -> {
+            row_collection.setOnLongClickListener(view -> {
                 item.onLongClick.call(item);
                 return true;
             });
