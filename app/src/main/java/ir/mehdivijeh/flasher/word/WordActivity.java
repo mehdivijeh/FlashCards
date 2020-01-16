@@ -106,8 +106,9 @@ public class WordActivity extends AppCompatActivity implements WordContract.Word
         if (wordDbs.size() > 0) {
             mRecyclerViewWords.setVisibility(View.VISIBLE);
 
-            for (WordDb wordDb : wordDbs) {
-                mItemAdapter.add(new AdapterWord(wordDb.getWord(), wordDb.getTranslate(), wordDb.isILearnIt(), adapterCollection -> {
+            for (int i = 0 ; i < wordDbs.size() ; i++) {
+                WordDb wordDb = wordDbs.get(i);
+                mItemAdapter.add(new AdapterWord(wordDb.getWord(), wordDb.getTranslate(), wordDb.isILearnIt() , i + 1, adapterCollection -> {
                     Intent intent = new Intent(WordActivity.this, StudyActivity.class);
                     intent.putExtra(GeneralConstants.COLLECTION_ID, collectionId);
                     intent.putExtra(GeneralConstants.WORD_ID, wordDb.getId());

@@ -402,7 +402,7 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
             mPresenter.loadExampleWithWordId(wordId);
             //showDataOnView();
         } else {
-            Toast.makeText(this, "this is last word", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Last word", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -412,7 +412,7 @@ public class StudyActivity extends AppCompatActivity implements StudyContract.St
             mPresenter.loadExampleWithWordId(wordId);
             //showDataOnView();
         } else {
-            Toast.makeText(this, "this is first word", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "First word", Toast.LENGTH_SHORT).show();
         }
     }
 

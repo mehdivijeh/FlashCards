@@ -85,9 +85,10 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
     @Override
     public void isFirstTimeOpenApp(boolean isFirstTime) {
-        if (isFirstTime)
+        if (isFirstTime) {
+            mPresenter.generateUUId();
             mPresenter.loadDataSetsOnDb();
-        else {
+        } else {
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }

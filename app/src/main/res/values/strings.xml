@@ -16,4 +16,9 @@
     <string name="delete">delete</string>
     <string name="dialog_delete_title">do you want to delete %1$s?</string>
     <string name="words">Words</string>
+    <string name="update_database">Update Database</string>
+    <string name="backup">Backup</string>
+    <string name="restore">RESTORE</string>
+    <string name="permission_denied_title">show again?</string>
+    <string name="permission_dialog_title">can\'t access to permissions</string>
 </resources>

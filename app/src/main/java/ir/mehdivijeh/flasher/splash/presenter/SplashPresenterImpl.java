@@ -3,6 +3,7 @@ package ir.mehdivijeh.flasher.splash.presenter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import ir.mehdivijeh.flasher.general.GeneralConstants;
 import ir.mehdivijeh.flasher.general.PreferenceUtils;
@@ -33,7 +34,7 @@ public class SplashPresenterImpl implements SplashContract.SplashPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(collectionDbs -> {
-                            PreferenceUtils.putBooleanPreference(GeneralConstants.ISN_NOT_FIRST_TIME_OPEN_APP , true);
+                            PreferenceUtils.putBooleanPreference(GeneralConstants.ISN_NOT_FIRST_TIME_OPEN_APP, true);
                             mView.onDataSetsLoaded();
                         }
                 ));
@@ -108,6 +109,12 @@ public class SplashPresenterImpl implements SplashContract.SplashPresenter {
             mView.isFirstTimeOpenApp(false);
         else
             mView.isFirstTimeOpenApp(true);
+    }
+
+    @Override
+    public void generateUUId() {
+        String uniqueID = UUID.randomUUID().toString();
+        PreferenceUtils.putStringPreference(GeneralConstants.UUID, uniqueID);
     }
 
     @Override

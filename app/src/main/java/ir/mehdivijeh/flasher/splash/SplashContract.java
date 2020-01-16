@@ -19,6 +19,8 @@ public class SplashContract {
 
         void checkIsFirstTimeOpenApp();
 
+        void generateUUId();
+
         void onDestroy();
     }
 

@@ -21,13 +21,15 @@ public class AdapterWord extends AbstractItem<AdapterWord, AdapterWord.ViewHolde
     private String rootWord;
     private String translateWord;
     private boolean isILearn;
+    private int number;
     private Action1<AdapterWord> onClick;
 
 
-    public AdapterWord(String rootWord, String translateWord, boolean isILearn, Action1<AdapterWord> onClick) {
+    public AdapterWord(String rootWord, String translateWord, boolean isILearn , int number, Action1<AdapterWord> onClick) {
         this.rootWord = rootWord;
         this.translateWord = translateWord;
         this.isILearn = isILearn;
+        this.number = number;
         this.onClick = onClick;
     }
 
@@ -67,7 +69,7 @@ public class AdapterWord extends AbstractItem<AdapterWord, AdapterWord.ViewHolde
         @Override
         public void bindView(AdapterWord item, List<Object> payloads) {
             txtTranslateWord.setText(item.translateWord);
-            txtRootWord.setText(item.rootWord);
+            txtRootWord.setText(item.number + "- " +item.rootWord);
 
             if (item.isILearn) {
                 imgCheck.setVisibility(View.VISIBLE);

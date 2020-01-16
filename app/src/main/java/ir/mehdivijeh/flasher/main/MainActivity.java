@@ -1,10 +1,13 @@
 package ir.mehdivijeh.flasher.main;
 
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -22,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 
 import ir.mehdivijeh.flasher.R;
+import ir.mehdivijeh.flasher.backup.BackupActivity;
 import ir.mehdivijeh.flasher.general.GeneralConstants;
 import ir.mehdivijeh.flasher.general.TextUtil;
 import ir.mehdivijeh.flasher.general.repo.db.LocalDb;
@@ -55,7 +59,25 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     private void initView() {
         mRecyclerViewCollection = findViewById(R.id.recycler_view_collection);
         mRainbowColors = getResources().getIntArray(R.array.rainbow);
+
         TextUtil.setFonts(getWindow().getDecorView());
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_backup) {
+            startActivity(new Intent(this , BackupActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initRecyclerView() {

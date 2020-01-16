@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".backup.BackupActivity">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="anim_backup.json"
+        app:lottie_loop="true" />
+
+
+    <TextView
+        android:id="@+id/txt_last_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/lottie"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:text="Last update in 25/12/98"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_backup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="18dp"
+        app:layout_constraintHorizontal_weight="1"
+        android:backgroundTint="@color/colorDarkBlue"
+        android:background="@drawable/rounded_corner"
+        android:text="@string/backup"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_restore"
+        app:layout_constraintTop_toBottomOf="@+id/txt_last_update" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_restore"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="18dp"
+        app:layout_constraintHorizontal_weight="1"
+        android:backgroundTint="@color/colorDarkBlue"
+        android:background="@drawable/rounded_corner"
+        android:text="@string/restore"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintStart_toEndOf="@+id/btn_backup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_last_update" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

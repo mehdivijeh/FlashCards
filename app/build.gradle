@@ -40,6 +40,15 @@ dependencies {
     //fastAdapter
     implementation "com.mikepenz:fastadapter:${fast_adapter_version}"
 
+    //retrofit
+    implementation 'com.squareup.okhttp3:okhttp:3.12.3'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.6.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.3'
+
+    //GSon
+    implementation 'com.google.code.gson:gson:2.8.6'
+
     //rx
     implementation "io.reactivex:rxandroid:${rx_android_version}"
     implementation "io.reactivex:rxjava:${rx_java_version}"
@@ -53,5 +62,8 @@ dependencies {
 
     //shimmer
     implementation "com.facebook.shimmer:shimmer:${shimmer_version}"
+
+    //permission
+    implementation 'com.nabinbhandari.android:permissions:3.8'
 
 }
