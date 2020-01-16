@@ -109,7 +109,7 @@ public class BackupPresenterImpl implements BackupContract.BackupPresenter {
         DownloadFile downloadFile = new DownloadFile();
         downloadFile.execute(getUiId()+".db");
     }
-    
+
 
     @Override
     public void onDestroy() {
